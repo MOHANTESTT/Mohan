@@ -289,6 +289,10 @@ include shared.mak
 # Define NO_REGEX if your C library lacks regex support with REG_STARTEND
 # feature.
 #
+# Define GIT_GREP_USES_REG_ENHANCED if your C library provides the flag
+# REG_ENHANCED to enable enhanced basic regular expressions and you'd
+# like to use it in git grep.
+#
 # Define HAVE_DEV_TTY if your system can open /dev/tty to interact with the
 # user.
 #
@@ -2037,6 +2041,10 @@ endif
 ifdef NO_REGEX
 	COMPAT_CFLAGS += -Icompat/regex
 	COMPAT_OBJS += compat/regex/regex.o
+else
+ifdef GIT_GREP_USES_REG_ENHANCED
+	COMPAT_CFLAGS += -DGIT_GREP_USES_REG_ENHANCED
+endif
 endif
 ifdef NATIVE_CRLF
 	BASIC_CFLAGS += -DNATIVE_CRLF

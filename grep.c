@@ -502,6 +502,10 @@ static void compile_regexp(struct grep_pat *p, struct grep_opt *opt)
 		regflags |= REG_ICASE;
 	if (opt->pattern_type_option == GREP_PATTERN_TYPE_ERE)
 		regflags |= REG_EXTENDED;
+#if defined(GIT_GREP_USES_REG_ENHANCED) && defined(REG_ENHANCED)
+	else
+		regflags |= REG_ENHANCED;
+#endif
 	err = regcomp(&p->regexp, p->pattern, regflags);
 	if (err) {
 		char errbuf[1024];
